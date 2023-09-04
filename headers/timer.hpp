@@ -35,10 +35,14 @@ class Timer<Period, enable_type_time_t<Period>> {
 
  public:
   Timer() : start{clock_t::now()} {}
-
-  int64_t operator()() const;
+  Timer(const Timer&) = delete;
+  Timer(Timer&&) = delete;
 
   void reset();
+
+  int64_t operator()() const;
+  Timer& operator= (const Timer&) = delete;
+  Timer& operator= (Timer&&) = delete;
 };
 
 template <typename Period>
@@ -53,4 +57,5 @@ inline void tmr::Timer<Period, enable_type_time_t<Period>>::reset() {
   start = clock_t::now();
 }
 }  // namespace tmr
+
 #endif  // _TIMER_HPP_
