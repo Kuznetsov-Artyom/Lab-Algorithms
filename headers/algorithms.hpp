@@ -28,4 +28,5 @@ void quickSort(std::vector<T>& arr, pos_t left, pos_t right) {
   quickSort(arr, l, right);
 }
 }  // namespace algs
+
 #endif  // _ALGORITHMS_HPP_
