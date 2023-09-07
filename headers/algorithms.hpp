@@ -2,6 +2,7 @@
 #define _ALGORITHMS_HPP_
 
 #include <vector>
+#include "headers/avltree.hpp"
 
 namespace algs {
 using pos_t = int64_t;
@@ -26,6 +27,12 @@ void quickSort(std::vector<T>& arr, pos_t left, pos_t right) {
 
   quickSort(arr, left, r);
   quickSort(arr, l, right);
+}
+
+template<typename T>
+void avlSort(std::vector<T>& arr){
+  tree::avlTree<T> tree(arr);
+  arr = tree.getElems();
 }
 }  // namespace algs
 
