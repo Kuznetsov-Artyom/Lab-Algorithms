@@ -1,10 +1,10 @@
 #include <iostream>
 #include <memory>
+#include <random>
 #include <vector>
 
-#include "benchmark/benchmark.hpp"
-#include "headers/algorithms.hpp"
-#include "headers/avltree.hpp"
+#include "algorithms.hpp"
+#include "timer.hpp"
 
 
 template <typename T, template <typename Elem, typename = std::allocator<Elem>>
@@ -17,30 +17,50 @@ std::ostream& operator<<(std::ostream& out, const Container<T>& cont) {
   return out << *itBegin;
 }
 
-void testEmplaceBack() {
-  std::vector<int> vec;
-  for (int j = 0; j < 1'000'000; ++j) vec.emplace_back(j + 1);
+static void testAvlSort() {
+  std::cout << __FUNCTION__ << "()\n";
+
+  std::vector<int> elems{5, 2, 1, -100, INT_MAX, 12, 0, 32, 90};
+
+  std::cout << "before: " << elems << '\n';
+  algs::avlSort(elems);
+  std::cout << "after: " << elems << '\n';
 }
 
-void testPushBack() {
-  std::vector<int> vec;
-  for (int j = 0; j < 1'000'000; ++j) vec.push_back(j + 1);
+static void testQuickSort() {
+  std::cout << __FUNCTION__ << "()\n";
+
+  std::vector<int> elems{5, 2, 1, -100, INT_MAX, 12, 0, 32, 90};
+
+  std::cout << "before: " << elems << '\n';
+  algs::quickSort(elems, 0, elems.size() - 1);
+  std::cout << "after: " << elems << '\n';
 }
 
-void testOperatorInd() {
-  std::vector<int> vec(1'000'000);
-  for (int j = 0; j < 1'000'000; ++j) vec[j] = j + 1;
+static void testAvlTreeLong(std::vector<int> elems) {
+  TIMER_START(timer, tmr::nanosecond_t);
+  algs::avlSort(elems);
+  std::cout << TIMER_GET(timer) << '\n';
+}
+
+static void testQuickSortLong(std::vector<int> elems) {
+  TIMER_START(timer, tmr::nanosecond_t);
+  algs::quickSort(elems, 0, elems.size() - 1);
+  std::cout << TIMER_GET(timer) << '\n';
 }
 
 int main(int argc, char* argv[], char** env) {
-  bmk::count_t count = 300;
-  BENCHMARK_CREATE(test1, tmr::millisecond_t, testPushBack, count);
-  BENCHMARK_CREATE(test2, tmr::millisecond_t, testEmplaceBack, count);
-  BENCHMARK_CREATE(test3, tmr::millisecond_t, testOperatorInd, count);
+  testAvlSort();
+  testQuickSort();
 
-  std::cout << BENCHMARK_START(test1) << '\n';
-  std::cout << BENCHMARK_START(test2) << '\n';
-  std::cout << BENCHMARK_START(test3) << '\n';
+  std::random_device rd;
+  std::mt19937 gen(rd());
+
+  std::vector<int> elems(1000);
+  for (auto& elem : elems) elem = gen();
+
+  testAvlTreeLong(elems);
+  testQuickSortLong(elems);
 
   return 0;
 }

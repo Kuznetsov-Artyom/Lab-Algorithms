@@ -3,6 +3,10 @@
 
 #include <chrono>
 
+#define TIMER_START(valName, period) tmr::Timer<period> valName
+#define TIMER_GET(valName) valName()
+#define TIMER_RESET(valName) valName.reset()
+
 namespace tmr {
 using nanosecond_t = std::ratio<1, 1000000000>;
 using microsecond_t = std::ratio<1, 1000000>;
