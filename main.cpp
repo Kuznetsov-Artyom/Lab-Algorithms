@@ -2,9 +2,10 @@
 #include <memory>
 #include <vector>
 
+#include "benchmark/benchmark.hpp"
 #include "headers/algorithms.hpp"
 #include "headers/avltree.hpp"
-#include "headers/timer.hpp"
+
 
 template <typename T, template <typename Elem, typename = std::allocator<Elem>>
                       class Container>
@@ -16,19 +17,30 @@ std::ostream& operator<<(std::ostream& out, const Container<T>& cont) {
   return out << *itBegin;
 }
 
+void testEmplaceBack() {
+  std::vector<int> vec;
+  for (int j = 0; j < 1'000'000; ++j) vec.emplace_back(j + 1);
+}
+
+void testPushBack() {
+  std::vector<int> vec;
+  for (int j = 0; j < 1'000'000; ++j) vec.push_back(j + 1);
+}
+
+void testOperatorInd() {
+  std::vector<int> vec(1'000'000);
+  for (int j = 0; j < 1'000'000; ++j) vec[j] = j + 1;
+}
+
 int main(int argc, char* argv[], char** env) {
-  // std::vector<int> values{3, 5, 7, 2, 1, -2, 5, 7};
-  // tmr::Timer<tmr::nanosecond_t> timer;
+  bmk::count_t count = 300;
+  BENCHMARK_CREATE(test1, tmr::millisecond_t, testPushBack, count);
+  BENCHMARK_CREATE(test2, tmr::millisecond_t, testEmplaceBack, count);
+  BENCHMARK_CREATE(test3, tmr::millisecond_t, testOperatorInd, count);
 
-  // algs::quickSort(values, 0, values.size() - 1);
-
-  // std::cout << timer() << '\n';
-
-  std::vector<int> elems{10, 30, 20, 40, 15};
-
-  std::cout << "No sorted: " << elems << '\n';
-  algs::avlSort(elems);
-  std::cout << "Sorted: " << elems << '\n';
+  std::cout << BENCHMARK_START(test1) << '\n';
+  std::cout << BENCHMARK_START(test2) << '\n';
+  std::cout << BENCHMARK_START(test3) << '\n';
 
   return 0;
 }
