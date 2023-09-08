@@ -16,6 +16,11 @@ struct Node {
 
   Node(T keyValue, int8_t heightVal = 0)
       : key{keyValue}, height{heightVal}, left{nullptr}, right{nullptr} {}
+
+  ~Node() {
+    delete left;
+    delete right;
+  }
 };
 
 template <typename T>
@@ -30,7 +35,7 @@ class avlTree {
   avlTree(avlTree&& other) noexcept;
   avlTree(const std::vector<T>& vec);
 
-  ~avlTree() { clear(); }
+  ~avlTree() { delete mRoot; }
 
   void insert(const T& value);
   void remove(const T& value);
@@ -59,7 +64,6 @@ class avlTree {
   Node<T>* findMinNode(Node<T>* node);
   Node<T>* removeMin(Node<T>* node);
 
-  void clearAll(Node<T>*& node, std::stack<Node<T>*>& way);
   const Node<T>* finder(const Node<T>* node, const T& value) const;
   Node<T>* copyOther(const Node<T>* otherRoot);
   void printer(Node<T>* node) const;
@@ -120,11 +124,8 @@ inline void avlTree<T>::remove(const T& value) {
 
 template <typename T>
 inline void avlTree<T>::clear() {
-  if (empty()) return;
-
-  std::stack<Node<T>*> way;
-
-  clearAll(mRoot, way);
+  delete mRoot;
+  mRoot = nullptr;
   mSize = 0;
 }
 
@@ -274,6 +275,8 @@ inline Node<T>* avlTree<T>::remover(Node<T>*& node, const T& value) {
     Node<T>* leftNode = node->left;
     Node<T>* rightNode = node->right;
 
+    node->left = nullptr;
+    node->right = nullptr;
     delete node;
     --mSize;
 
@@ -302,38 +305,6 @@ inline Node<T>* avlTree<T>::removeMin(Node<T>* node) {
   node->left = removeMin(node->left);
 
   return balancing(node);
-}
-
-template <typename T>
-inline void avlTree<T>::clearAll(Node<T>*& node, std::stack<Node<T>*>& way) {
-  if (node->left != nullptr) {
-    way.push(node);
-    clearAll(node->left, way);
-    return;
-  }
-  if (node->right != nullptr) {
-    way.push(node);
-    clearAll(node->right, way);
-    return;
-  }
-  if (node == mRoot) {
-    delete mRoot;
-    mRoot = nullptr;
-    return;
-  }
-
-  Node<T>* lastNode = way.top();
-  way.pop();
-
-  if (lastNode->left == node) {
-    delete node;
-    lastNode->left = nullptr;
-  } else {
-    delete node;
-    lastNode->right = nullptr;
-  }
-
-  clearAll(lastNode, way);
 }
 
 template <typename T>
