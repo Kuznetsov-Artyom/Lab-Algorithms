@@ -30,7 +30,7 @@ static void testAvlSort() {
 static void testQuickSort() {
   std::cout << __FUNCTION__ << "()\n";
 
-  std::vector<int> elems{5, 2, 1, -100, INT_MAX, 12, 0, 32, 90};
+  std::vector<int> elems{5, 2, 1, -100, INT_MAX,1,1,1,1, 12, 0, 32, 90};
 
   std::cout << "before: " << elems << '\n';
   algs::quickSort(elems, 0, elems.size() - 1);
@@ -38,13 +38,13 @@ static void testQuickSort() {
 }
 
 static void testAvlTreeLong(std::vector<int> elems) {
-  TIMER_START(timer, tmr::nanosecond_t);
+  TIMER_START(timer, tmr::millisecond_t);
   algs::avlSort(elems);
   std::cout << TIMER_GET(timer) << '\n';
 }
 
 static void testQuickSortLong(std::vector<int> elems) {
-  TIMER_START(timer, tmr::nanosecond_t);
+  TIMER_START(timer, tmr::millisecond_t);
   algs::quickSort(elems, 0, elems.size() - 1);
   std::cout << TIMER_GET(timer) << '\n';
 }
@@ -56,7 +56,7 @@ int main(int argc, char* argv[], char** env) {
   std::random_device rd;
   std::mt19937 gen(rd());
 
-  std::vector<int> elems(1000);
+  std::vector<int> elems(1'000'000);
   for (auto& elem : elems) elem = gen();
 
   testAvlTreeLong(elems);
