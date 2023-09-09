@@ -2,6 +2,7 @@
 #define _TIMER_HPP_
 
 #include <chrono>
+#include "traits.hpp"
 
 #define TIMER_START(valName, period) tmr::Timer<period> valName
 #define TIMER_GET(valName) valName()
@@ -15,12 +16,9 @@ using second_t = std::ratio<1>;
 using minute_t = std::ratio<60>;
 using hour_t = std::ratio<3600>;
 
-template <typename T, typename... Types>
-constexpr bool is_any_of_v = (std::is_same_v<T, Types> || ...);
-
 template <typename T>
 constexpr bool is_type_time_v =
-    is_any_of_v<T, nanosecond_t, microsecond_t, millisecond_t, second_t,
+    traits::is_any_of_v<T, nanosecond_t, microsecond_t, millisecond_t, second_t,
                 minute_t, hour_t>;
 
 template <typename T>
