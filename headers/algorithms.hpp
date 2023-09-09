@@ -2,7 +2,7 @@
 #define _ALGORITHMS_HPP_
 
 #include <vector>
-#include "headers/avltree.hpp"
+#include "avltree.hpp"
 
 namespace algs {
 using pos_t = int64_t;

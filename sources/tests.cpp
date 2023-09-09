@@ -1,4 +1,4 @@
-#include "../headers/tests.hpp"
+#include "tests.hpp"
 
 void tests::testAvlSort() {
   std::cout << __FUNCTION__ << "()\n";
