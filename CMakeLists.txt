@@ -13,15 +13,16 @@ include_directories(./sources)
 include_directories(./headers)
 
 set(SRC
+    sources/algorithms.cpp
     sources/tests.cpp
 )
 set(HDR
-    headers/traits.hpp
-    headers/timer.hpp
-    headers/generator.hpp
-    headers/avltree.hpp
     headers/algorithms.hpp
+    headers/avltree.hpp
+    headers/generator.hpp
     headers/tests.hpp
+    headers/timer.hpp
+    headers/traits.hpp
 )
 
 add_library(main_lib ${SRC} ${HDR})

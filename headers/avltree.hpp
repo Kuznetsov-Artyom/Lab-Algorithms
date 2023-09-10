@@ -1,6 +1,7 @@
 #ifndef _AVLTREE_HPP_
 #define _AVLTREE_HPP_
 
+#include <iostream>
 #include <cstdint>
 #include <stack>
 #include <vector>

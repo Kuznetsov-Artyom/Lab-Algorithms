@@ -37,7 +37,7 @@ void testSort(FuncSort func, Layout layout, size_t sizeArr, size_t countTest,
 
 void autoTestSortChangeSize(FuncSort func, Layout layout, size_t countTest,
                             size_t maxSize, size_t step,
-                            int64_t minValue = INT64_MAX,
+                            int64_t minValue = INT64_MIN,
                             int64_t maxValue = INT64_MAX);
 
 void autoTestSortChangeRangeValue(FuncSort func, Layout layout,
