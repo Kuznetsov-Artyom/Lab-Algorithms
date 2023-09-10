@@ -75,13 +75,24 @@ void tests::testSort(FuncSort func, Layout layout, size_t sizeArr,
     std::cout << "NO_SORT\n";
 
   std::cout << "size:\t\t" << sizeArr << '\n';
+  std::cout << "minV:\t\t" << minValue << '\n';
+  std::cout << "maxV:\t\t" << maxValue << '\n';
   std::cout << "tests:\t\t" << countTest << '\n';
   std::cout << "avg time:\t" << total / countTest << " ms\n\n";
 }
 
-void tests::autoTestSort(FuncSort func, Layout layout, size_t countTest,
-                         size_t maxSize, size_t step, int64_t minValue,
-                         int64_t maxValue) {
+void tests::autoTestSortChangeSize(FuncSort func, Layout layout,
+                                   size_t countTest, size_t maxSize,
+                                   size_t step, int64_t minValue,
+                                   int64_t maxValue) {
   for (size_t sizeArr = 1; sizeArr <= maxSize; sizeArr += step)
     tests::testSort(func, layout, sizeArr, countTest, minValue, maxValue);
+}
+
+void tests::autoTestSortChangeRangeValue(FuncSort func, Layout layout,
+                                         size_t countTest, size_t sizeArr,
+                                         int64_t minValue, int64_t maxValue,
+                                         size_t step) {
+  for (int64_t value = minValue; value <= maxValue; value += step)
+    tests::testSort(func, layout, sizeArr, countTest, minValue, value);
 }

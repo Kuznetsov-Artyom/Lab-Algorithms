@@ -35,9 +35,15 @@ void testQuickSort();
 void testSort(FuncSort func, Layout layout, size_t sizeArr, size_t countTest,
               int64_t minValue = INT64_MIN, int64_t maxValue = INT64_MAX);
 
-void autoTestSort(FuncSort func, Layout layout, size_t countTest,
-                  size_t maxSize, size_t step, int64_t minValue = INT64_MAX,
-                  int64_t maxValue = INT64_MAX);
+void autoTestSortChangeSize(FuncSort func, Layout layout, size_t countTest,
+                            size_t maxSize, size_t step,
+                            int64_t minValue = INT64_MAX,
+                            int64_t maxValue = INT64_MAX);
+
+void autoTestSortChangeRangeValue(FuncSort func, Layout layout,
+                                  size_t countTest, size_t sizeArr,
+                                  int64_t minValue, int64_t maxValue,
+                                  size_t step);
 }  // namespace tests
 
 #endif  // _TESTS_HPP_
