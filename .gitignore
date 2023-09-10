@@ -33,6 +33,7 @@
 
 #Project files
 [Bb]uild/
+[Rr]es/
 
 # Other
 .vscode/
