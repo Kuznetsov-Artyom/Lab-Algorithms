@@ -1,7 +1,7 @@
 #include <iostream>
 #include <random>
 
-#include "headers/tests.hpp"
+#include "tests.hpp"
 
 int main(int argc, char* argv[], char** env) {
   tests::autoTestSortChangeRangeValue(
