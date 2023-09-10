@@ -2,6 +2,7 @@
 #define _TESTS_HPP_
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -9,6 +10,7 @@
 #include "algorithms.hpp"
 #include "generator.hpp"
 #include "timer.hpp"
+
 
 template <typename T, template <typename Elem, typename = std::allocator<Elem>>
                       class Container>
@@ -29,11 +31,13 @@ std::vector<int64_t> createRandomArray(size_t size,
                                        int64_t minValue = INT64_MIN,
                                        int64_t maxValue = INT64_MAX);
 
+std::string createPath(std::string testName, FuncSort func, Layout layout);
+
 void testAvlSort();
 void testQuickSort();
 
-void testSort(FuncSort func, Layout layout, size_t sizeArr, size_t countTest,
-              int64_t minValue = INT64_MIN, int64_t maxValue = INT64_MAX);
+int64_t testSort(FuncSort func, Layout layout, size_t sizeArr, size_t countTest,
+                 int64_t minValue = INT64_MIN, int64_t maxValue = INT64_MAX);
 
 void autoTestSortChangeSize(FuncSort func, Layout layout, size_t countTest,
                             size_t maxSize, size_t step,
