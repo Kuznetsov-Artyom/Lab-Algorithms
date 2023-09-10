@@ -1,5 +1,14 @@
 #include "tests.hpp"
 
+std::vector<int> tests::createRandomArray(size_t size, int minValue, int maxValue) {
+  gen::Generator<int> generator(minValue, maxValue);
+
+  std::vector<int> elems(size);
+  for (auto& elem : elems) elem = generator();
+
+  return elems;
+}
+
 void tests::testAvlSort() {
   std::cout << __FUNCTION__ << "()\n";
 

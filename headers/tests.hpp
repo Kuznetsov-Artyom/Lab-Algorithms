@@ -7,6 +7,7 @@
 
 #include "algorithms.hpp"
 #include "timer.hpp"
+#include "generator.hpp"
 
 template <typename T, template <typename Elem, typename = std::allocator<Elem>>
                       class Container>
@@ -19,6 +20,9 @@ std::ostream& operator<<(std::ostream& out, const Container<T>& cont) {
 }
 
 namespace tests {
+
+std::vector<int> createRandomArray(size_t size, int low = INT_MIN, int max = INT_MAX);
+
 void testAvlSort();
 void testQuickSort();
 
