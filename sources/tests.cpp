@@ -1,10 +1,16 @@
 #include "tests.hpp"
 
-std::vector<int> tests::createRandomArray(size_t size, int minValue, int maxValue) {
+std::vector<int> tests::createRandomArray(size_t size, Layout layout,
+                                          int minValue, int maxValue) {
   gen::Generator<int> generator(minValue, maxValue);
 
   std::vector<int> elems(size);
   for (auto& elem : elems) elem = generator();
+
+  if (layout == Layout::INC_SORT)
+    std::sort(elems.begin(), elems.end());
+  else if (layout == Layout::DEC_SORT)
+    std::sort(elems.rbegin(), elems.rend());
 
   return elems;
 }
@@ -29,9 +35,11 @@ void tests::testQuickSort() {
   std::cout << "after: " << elems << '\n';
 }
 
-void tests::testAvlTreeLong(std::vector<int>& elems, size_t countTest) {
+void tests::testAvlTreeLong(size_t sizeArr, size_t countTest, Layout layout, int minValue,
+                            int maxValue) {
   std::cout << __FUNCTION__ << "()\n";
 
+  std::vector<int> elems = createRandomArray(sizeArr, layout, minValue, maxValue);
   long long total = 0;
 
   for (size_t i = 0; i < countTest; ++i) {
@@ -42,13 +50,16 @@ void tests::testAvlTreeLong(std::vector<int>& elems, size_t countTest) {
     total += TIMER_GET(timer);
   }
 
+  std::cout << "size:\t\t" << sizeArr << '\n';
   std::cout << "tests:\t\t" << countTest << '\n';
   std::cout << "avg time:\t" << total / countTest << " ms\n";
 }
 
-void tests::testQuickSortLong(std::vector<int>& elems, size_t countTest) {
+void tests::testQuickSortLong(size_t sizeArr, size_t countTest, Layout layout, int minValue,
+                              int maxValue) {
   std::cout << __FUNCTION__ << "()\n";
 
+  std::vector<int> elems = createRandomArray(sizeArr, layout, minValue, maxValue);
   long long total = 0;
 
   for (size_t i = 0; i < countTest; ++i) {
@@ -58,7 +69,7 @@ void tests::testQuickSortLong(std::vector<int>& elems, size_t countTest) {
     algs::quickSort(elems, 0, elems.size() - 1);
     total += TIMER_GET(timer);
   }
-
+  std::cout << "size:\t\t" << sizeArr << '\n';
   std::cout << "tests:\t\t" << countTest << '\n';
   std::cout << "avg time:\t" << total / countTest << " ms\n";
 }
