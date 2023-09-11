@@ -40,7 +40,7 @@ std::string tests::createPath(std::string testName, FuncSort func,
 void tests::testAvlSort() {
   std::cout << __FUNCTION__ << "()\n";
 
-  std::vector<int64_t> elems{5, 2, 1, -100, INT_MAX, 12, 0, 32, 90};
+  std::vector<int64_t> elems{5, 2, 1, 1, 1, 1, -100, INT_MAX, 12, 0, 32, 90};
 
   std::cout << "before: " << elems << '\n';
   algs::avlSort(elems);
@@ -50,7 +50,7 @@ void tests::testAvlSort() {
 void tests::testQuickSort() {
   std::cout << __FUNCTION__ << "()\n";
 
-  std::vector<int64_t> elems{5, 2, 1, -100, INT_MAX, 12, 0, 32, 90};
+  std::vector<int64_t> elems{5, 2, 1, 1, 1, 1, -100, INT_MAX, 12, 0, 32, 90};
 
   std::cout << "before: " << elems << '\n';
   algs::quickSort(elems, 0, elems.size() - 1);
