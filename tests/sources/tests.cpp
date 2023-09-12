@@ -40,7 +40,7 @@ std::string tests::createPath(std::string testName, FuncSort func,
 void tests::testAvlSort() {
   std::cout << __FUNCTION__ << "()\n";
 
-  std::vector<int64_t> elems{5, 2, 1, -100, INT_MAX, 12, 0, 32, 90};
+  std::vector<int64_t> elems{5, 2, 1, 1, 1, 1, -100, INT_MAX, 12, 0, 32, 90};
 
   std::cout << "before: " << elems << '\n';
   algs::avlSort(elems);
@@ -50,7 +50,7 @@ void tests::testAvlSort() {
 void tests::testQuickSort() {
   std::cout << __FUNCTION__ << "()\n";
 
-  std::vector<int64_t> elems{5, 2, 1, -100, INT_MAX, 12, 0, 32, 90};
+  std::vector<int64_t> elems{5, 2, 1, 1, 1, 1, -100, INT_MAX, 12, 0, 32, 90};
 
   std::cout << "before: " << elems << '\n';
   algs::quickSort(elems, 0, elems.size() - 1);
@@ -108,9 +108,6 @@ void tests::autoTestSortChangeSize(FuncSort func, Layout layout,
                                    size_t countTest, size_t maxSize,
                                    size_t step, int64_t minValue,
                                    int64_t maxValue) {
-  // std::fstream fout(createPath("ChangeSize", func, layout),
-  //                   std::fstream::out | std::fstream::app);
-
   std::fstream fout(createPath("ChangeSize", func, layout), std::fstream::out);
 
   for (size_t sizeArr = 1; sizeArr <= maxSize; sizeArr += step) {
@@ -128,7 +125,7 @@ void tests::autoTestSortChangeRangeValue(FuncSort func, Layout layout,
                                          int64_t minValue, int64_t maxValue,
                                          size_t step) {
   std::fstream fout(createPath("ChangeRangeValue", func, layout),
-                    std::fstream::out | std::fstream::app);
+                    std::fstream::out);
 
   for (int64_t value = minValue; value <= maxValue; value += step) {
     fout << value << ' ';

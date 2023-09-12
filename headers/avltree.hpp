@@ -11,12 +11,17 @@ template <typename T>
 struct Node {
   T key;
   int8_t height;
+  size_t count;
 
   Node<T>* left;
   Node<T>* right;
 
-  Node(T keyValue, int8_t heightVal = 0)
-      : key{keyValue}, height{heightVal}, left{nullptr}, right{nullptr} {}
+  Node(T keyValue, int8_t heightVal = 0, size_t countElem = 0)
+      : key{keyValue},
+        height{heightVal},
+        count{countElem},
+        left{nullptr},
+        right{nullptr} {}
 
   ~Node() {
     delete left;
@@ -29,9 +34,10 @@ class avlTree {
  private:
   Node<T>* mRoot;
   size_t mSize;
+  size_t mCount;
 
  public:
-  avlTree() : mRoot{nullptr}, mSize{0} {}
+  avlTree() : mRoot{nullptr}, mSize{0}, mCount{0} {}
   avlTree(const avlTree& other);
   avlTree(avlTree&& other) noexcept;
   avlTree(const std::vector<T>& vec);
@@ -76,12 +82,13 @@ inline avlTree<T>::avlTree(const avlTree& other) : avlTree() {
   if (!other.empty()) {
     mRoot = copyOther(other.mRoot);
     mSize = other.mSize;
+    mCount = other.mCount;
   }
 }
 
 template <typename T>
 inline avlTree<T>::avlTree(avlTree&& other) noexcept
-    : mRoot{other.mRoot}, mSize{other.mSize} {
+    : mRoot{other.mRoot}, mSize{other.mSize}, mCount{other.mCount} {
   other.mRoot = nullptr;
 }
 
@@ -146,7 +153,7 @@ template <typename T>
 inline std::vector<T> avlTree<T>::getElems() const {
   if (empty()) return std::vector<T>();
 
-  std::vector<T> elems(mSize);
+  std::vector<T> elems(mCount);
   size_t pos = 0;
   fillVector(mRoot, elems, pos);
 
@@ -174,6 +181,7 @@ inline avlTree<T>& avlTree<T>::operator=(avlTree&& other) noexcept {
   clear();
 
   mSize = other.mSize;
+  mCount = other.mCount;
   mRoot = other.mRoot;
   other.mRoot = nullptr;
 
@@ -186,15 +194,21 @@ template <typename T>
 inline Node<T>* avlTree<T>::inserter(Node<T>*& node, const T& value,
                                      std::stack<Node<T>*>& way) {
   if (node == nullptr) {
-    node = new Node<T>(value);
+    node = new Node<T>(value, 0, 1);
     ++mSize;
+    ++mCount;
     return node;
   }
 
   way.push(node);
 
   if (value < node->key) return inserter(node->left, value, way);
-  if (value > node->key) return inserter(node->right, value, way);
+  if (value > node->key)
+    return inserter(node->right, value, way);
+  else {
+    ++(node->count);
+    ++mCount;
+  }
 
   return nullptr;
 }
@@ -323,7 +337,8 @@ template <typename T>
 inline Node<T>* avlTree<T>::copyOther(const Node<T>* otherRoot) {
   if (otherRoot == nullptr) return nullptr;
 
-  Node<T>* node = new Node<T>(otherRoot->key, otherRoot->height);
+  Node<T>* node =
+      new Node<T>(otherRoot->key, otherRoot->height, otherRoot->count);
 
   node->left = copyOther(otherRoot->left);
   node->right = copyOther(otherRoot->right);
@@ -346,7 +361,9 @@ inline void avlTree<T>::fillVector(Node<T>* node, std::vector<T>& elems,
   if (node == nullptr) return;
 
   fillVector(node->left, elems, pos);
-  elems[pos++] = node->key;
+  for (size_t i = 0; i < node->count; ++i) {
+    elems[pos++] = node->key;
+  }
   fillVector(node->right, elems, pos);
 }
 }  // namespace tree
