@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <cstdint>
-#include <stack>
 #include <vector>
 
 namespace tree {
@@ -59,7 +58,7 @@ class avlTree {
   avlTree& operator=(avlTree&& other) noexcept;
 
  private:
-  Node<T>* inserter(Node<T>*& node, const T& value, std::stack<Node<T>*>& way);
+  Node<T>* inserter(Node<T>*& node, const T& value);
   Node<T>* balancing(Node<T>* node);
   int8_t balanceFactor(Node<T>* node);
   Node<T>* rightRotate(Node<T>* node);
@@ -103,25 +102,7 @@ inline avlTree<T>::avlTree(const std::vector<T>& elems) : avlTree() {
 
 template <typename T>
 inline void avlTree<T>::insert(const T& value) {
-  std::stack<Node<T>*> way;
-  Node<T>* newNode = inserter(mRoot, value, way);
-
-  if (newNode == nullptr) return;
-
-  while (!way.empty()) {
-    Node<T>* node = way.top();
-    way.pop();
-
-    if (!way.empty()) {
-      Node<T>* parentNode = way.top();
-
-      if (node->key > parentNode->key)
-        parentNode->right = balancing(node);
-      else
-        parentNode->left = balancing(node);
-    } else
-      mRoot = balancing(node);
-  }
+  mRoot = inserter(mRoot, value);
 }
 
 template <typename T>
@@ -191,26 +172,22 @@ inline avlTree<T>& avlTree<T>::operator=(avlTree&& other) noexcept {
 ////////////////////// PRIVATE METHODS //////////////////////
 
 template <typename T>
-inline Node<T>* avlTree<T>::inserter(Node<T>*& node, const T& value,
-                                     std::stack<Node<T>*>& way) {
+inline Node<T>* avlTree<T>::inserter(Node<T>*& node, const T& value) {
   if (node == nullptr) {
-    node = new Node<T>(value, 0, 1);
-    ++mSize;
     ++mCount;
-    return node;
+    ++mSize;
+    return new Node<T>(value, 0, 1);
   }
 
-  way.push(node);
-
-  if (value < node->key) return inserter(node->left, value, way);
-  if (value > node->key)
-    return inserter(node->right, value, way);
+  if (value < node->key)
+    node->left = inserter(node->left, value);
+  else if (value > node->key)
+    node->right = inserter(node->right, value);
   else {
     ++(node->count);
     ++mCount;
   }
-
-  return nullptr;
+  return balancing(node);
 }
 
 template <typename T>
