@@ -1,8 +1,8 @@
 #ifndef _AVLTREE_HPP_
 #define _AVLTREE_HPP_
 
-#include <iostream>
 #include <cstdint>
+#include <iostream>
 #include <vector>
 
 namespace tree {
@@ -186,6 +186,7 @@ inline Node<T>* avlTree<T>::inserter(Node<T>*& node, const T& value) {
   else {
     ++(node->count);
     ++mCount;
+    return node;
   }
   return balancing(node);
 }
