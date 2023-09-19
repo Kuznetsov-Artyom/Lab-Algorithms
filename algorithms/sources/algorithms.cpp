@@ -21,7 +21,7 @@ void algs::quickSort(std::vector<int64_t>& arr, pos_t left, pos_t right) {
   quickSort(arr, l, right);
 }
 
-void algs::avlSort(std::vector<int64_t>& arr){
+void algs::avlSort(std::vector<int64_t>& arr) {
   tree::avlTree<int64_t> tree(arr);
   arr = tree.getElems();
 }

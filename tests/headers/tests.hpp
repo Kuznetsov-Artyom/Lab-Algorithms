@@ -11,7 +11,6 @@
 #include "generator.hpp"
 #include "timer.hpp"
 
-
 template <typename T, template <typename Elem, typename = std::allocator<Elem>>
                       class Container>
 std::ostream& operator<<(std::ostream& out, const Container<T>& cont) {
