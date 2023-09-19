@@ -68,7 +68,7 @@ int64_t tests::testSort(FuncSort func, Layout layout, size_t sizeArr,
       std::vector<int64_t> arr(elems);
 
       TIMER_START(timer, tmr::millisecond_t);
-      algs::avlSort(elems);
+      algs::avlSort(arr);
       total += TIMER_GET(timer);
     }
   } else {
@@ -76,7 +76,7 @@ int64_t tests::testSort(FuncSort func, Layout layout, size_t sizeArr,
       std::vector<int64_t> arr(elems);
 
       TIMER_START(timer, tmr::millisecond_t);
-      algs::quickSort(elems, 0, elems.size() - 1);
+      algs::quickSort(arr, 0, arr.size() - 1);
       total += TIMER_GET(timer);
     }
   }
