@@ -2,7 +2,9 @@
 #define _TIMER_HPP_
 
 #include <chrono>
+
 #include "traits.hpp"
+
 
 #define TIMER_START(valName, period) tmr::Timer<period> valName
 #define TIMER_GET(valName) valName()
@@ -19,7 +21,7 @@ using hour_t = std::ratio<3600>;
 template <typename T>
 constexpr bool is_type_time_v =
     traits::is_any_of_v<T, nanosecond_t, microsecond_t, millisecond_t, second_t,
-                minute_t, hour_t>;
+                        minute_t, hour_t>;
 
 template <typename T>
 using enable_type_time_t = typename std::enable_if_t<is_type_time_v<T>>;
@@ -43,8 +45,8 @@ class Timer<Period, enable_type_time_t<Period>> {
   void reset();
 
   int64_t operator()() const;
-  Timer& operator= (const Timer&) = delete;
-  Timer& operator= (Timer&&) = delete;
+  Timer& operator=(const Timer&) = delete;
+  Timer& operator=(Timer&&) = delete;
 };
 
 template <typename Period>
