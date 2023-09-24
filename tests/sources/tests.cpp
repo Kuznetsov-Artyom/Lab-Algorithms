@@ -111,10 +111,9 @@ void tests::autoTestSortChangeSize(FuncSort func, Layout layout,
   std::fstream fout(createPath("ChangeSize", func, layout), std::fstream::out);
 
   for (size_t sizeArr = 1; sizeArr <= maxSize; sizeArr += step) {
-    fout << sizeArr << ' ';
     int64_t resTime =
         testSort(func, layout, sizeArr, countTest, minValue, maxValue);
-    fout << resTime << '\n';
+    fout << sizeArr << ' ' << resTime << '\n';
   }
 
   fout.close();
@@ -128,10 +127,9 @@ void tests::autoTestSortChangeRangeValue(FuncSort func, Layout layout,
                     std::fstream::out);
 
   for (int64_t value = minValue; value <= maxValue; value += step) {
-    fout << value << ' ';
     int64_t resTime =
         testSort(func, layout, sizeArr, countTest, minValue, value);
-    fout << resTime << '\n';
+    fout << value << ' ' << resTime << '\n';
   }
 
   fout.close();
