@@ -143,7 +143,7 @@ inline std::vector<T> avlTree<T>::getElems() const {
 
 template <typename T>
 inline avlTree<T>& avlTree<T>::operator=(const avlTree& other) {
-  if (&other = this) return *this;
+  if (&other == this) return *this;
 
   clear();
 
