@@ -110,13 +110,16 @@ void tests::autoTestSortChangeSize(FuncSort func, Layout layout,
                                    int64_t maxValue) {
   std::fstream fout(createPath("ChangeSize", func, layout), std::fstream::out);
 
-  for (size_t sizeArr = 1; sizeArr <= maxSize; sizeArr += step) {
-    int64_t resTime =
-        testSort(func, layout, sizeArr, countTest, minValue, maxValue);
-    fout << sizeArr << ' ' << resTime << '\n';
+  if (fout.is_open()) {
+    for (size_t sizeArr = 1; sizeArr <= maxSize; sizeArr += step) {
+      int64_t resTime =
+          testSort(func, layout, sizeArr, countTest, minValue, maxValue);
+      fout << sizeArr << ' ' << resTime << '\n';
+    }
+    fout.close();
+  } else {
+    std::cout << "FAILURE OPEN FILE\n";
   }
-
-  fout.close();
 }
 
 void tests::autoTestSortChangeRangeValue(FuncSort func, Layout layout,
@@ -126,11 +129,14 @@ void tests::autoTestSortChangeRangeValue(FuncSort func, Layout layout,
   std::fstream fout(createPath("ChangeRangeValue", func, layout),
                     std::fstream::out);
 
-  for (int64_t value = minValue; value <= maxValue; value += step) {
-    int64_t resTime =
-        testSort(func, layout, sizeArr, countTest, minValue, value);
-    fout << value << ' ' << resTime << '\n';
+  if (fout.is_open()) {
+    for (int64_t value = minValue; value <= maxValue; value += step) {
+      int64_t resTime =
+          testSort(func, layout, sizeArr, countTest, minValue, value);
+      fout << value << ' ' << resTime << '\n';
+    }
+    fout.close();
+  } else {
+    std::cout << "FAILURE OPEN FILE\n";
   }
-
-  fout.close();
 }
